@@ -1,0 +1,12 @@
+#include <iostream>
+using namespace std;
+double foo(double a,double b,double c){
+    double y=(2*a-b-sin(c))/(5+abs(c));
+    return y;
+}
+int main(){
+    double t,s,y;
+    cin>>t>>s;
+    y=foo(t,-2*s,1.17)+foo(2.2,t,s-t);
+    cout<<y;
+}
