@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 using namespace std;
 double foo(double a,double b,double c){
     double y=(2*a-b-sin(c))/(5+abs(c));
