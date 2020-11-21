@@ -1,0 +1,31 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+double vidst(double x1,double y1,double x2,double y2){
+      return sqrt(pow(x1-x2,2)+pow(y1-y2,2));
+}
+double ploscha(double x1,double y1,double x2,double y2,double x3,double y3){
+    double sq,p;
+    double a=vidst(x1,y1,x2,y2);
+    double b=vidst(x1,y1,x3,y3);
+    double c=vidst(x2,y2,x3,y3);
+    p=(a+b+c)/2;
+    return sqrt(p*(p-a)*(p-b)*(p-c));
+}
+int main() {
+    double arr[18];
+    double sq1,sq2,sq3;
+    for(int i=0;i<18;i++){
+        cin>>arr[i];
+    }
+    sq1=ploscha(arr[0],arr[1],arr[2],arr[3],arr[4],arr[5]);
+    sq2=ploscha(arr[6],arr[7],arr[8],arr[9],arr[10],arr[11]);
+    sq3=ploscha(arr[12],arr[13],arr[14],arr[15],arr[16],arr[17]);
+    if(sq1>sq2&&sq1>sq3) {
+        for(int i=0;i<6;i++) cout<<arr[i];
+    }
+    if(sq2>sq1&&sq2>sq3) {
+        for(int i=6;i<12;i++) cout<<arr[i];
+    }
+    else for(int i=12;i<17;i+=2) cout<<arr[i]<<" "<<arr[i+1]<<endl;
+}
