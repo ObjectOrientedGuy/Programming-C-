@@ -1,0 +1,29 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+double vidst(double x1, double y1, double x2, double y2) {
+    return sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2));
+}
+
+int main() {
+    int n,num1,num2;
+    double max;
+    cin >> n;
+    double *arr = new double[2 * n];
+    for (int i = 0; i <2*n; i++) {
+        cin >> arr[i];
+    }
+    max = vidst(arr[0], arr[1], arr[2], arr[3]);
+    for (int i = 0; i < 2 * n; i += 2) {
+        for (int k = i + 2; k < 2 * n; k += 2) {
+            if (vidst(arr[i], arr[i + 1], arr[k], arr[k + 1]) > max) {
+                max = vidst(arr[i], arr[i + 1], arr[k], arr[k + 1]);
+                num1=i+1;
+                num2=k+1;
+            }
+        }
+    }
+    cout <<num1<<" "<<num2<<endl;
+}
