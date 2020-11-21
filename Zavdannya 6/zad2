@@ -1,0 +1,13 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+double fmax(double a,double b){
+     if(a<b)return b;
+     else return a;
+}
+int main() {
+    double a,b,c,s;
+    cin>>a>>b>>c;
+    s=(fmax(a,a+b)+fmax(a,b+c))/(1+fmax(a+b*c,1.15));
+    cout<<s;
+}
