@@ -1,0 +1,29 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+double itter(double N) {
+    double sum = 0;
+    for (int i = 1; i <= N + 0.1; i++) {
+        sum += sin(i) / (1 + cos(i));
+    }
+    return sum;
+}
+
+double recurs(double N) {
+    double sum;
+    if (N <= 0.99)return sum;
+    else {
+        sum = sin(N) / (1 + cos(N));
+        sum += recurs(N - 1);
+    }
+    return sum;
+}
+
+int main() {
+    double N;
+    cin >> N;
+    cout << "Recursia = " << recurs(N) << endl;
+    cout << "Itteratsia = " << itter(N) << endl;
+}
