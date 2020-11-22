@@ -1,0 +1,39 @@
+#include <iostream>
+
+using namespace std;
+
+void foo1(int *arr, int n) {
+    double tmp;
+    for (int l = 0; l < n - 1; l++) {
+        for (int r = 0; r < n - 1; r++) {
+            if (arr[r] > arr[r + 1]) {//порівнюємо сусідні елементи
+                tmp = arr[r];//якщо вони стоять неправильно то міняємо їх місцями
+                arr[r] = arr[r + 1];
+                arr[r + 1] = tmp;
+            }
+        }
+    }
+}//сортування бульбашкою
+void foo2(int *arr, int n) {
+    for (int i = 0; i < n; ++i) {
+        int value = arr[i];
+        int j = i - 1;
+        for (; j >= 0 && arr[j] > value; --j)
+            arr[j + 1] = arr[j];
+        arr[j + 1] = value;
+    }
+}//сортування вставленням 
+int main() {
+    int n;
+    cin >> n;
+    int *arr = new int[n];
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    //foo1(arr,n);
+    foo2(arr, n);
+    for (int i = 0; i < n; i++) {
+        cout << arr[i];
+    }
+    return 0;
+}
