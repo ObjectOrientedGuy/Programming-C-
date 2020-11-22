@@ -1,0 +1,37 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+double integ_sum = 0;
+double integ_sum_sin = 0;
+double h;
+double h_sin;
+
+double i_atan(double step, double c, double d) {
+    double piv_step = step / 2;
+    h = pow(atan(c), 2);
+    if (d + piv_step <= c) return integ_sum;
+    else {
+        integ_sum += step * h;
+        return i_atan(step, c + step, d);
+    }
+}
+
+double i_sin(double step, double c, double d) {
+    double piv_step = step / 2;
+    h_sin = sin(exp(10 * c));
+    if (d + piv_step <= c) return integ_sum_sin;
+    else {
+        integ_sum_sin += step * h_sin;
+        return i_sin(step, c + step, d);
+    }
+}
+
+int main() {
+    double c, d, step;
+    cin >> c >> d;
+    step = (d - c) / 20;
+    c += step / 2;
+    cout << i_atan(step, c, d) + i_sin(M_PI / 100, 0, M_PI);
+    return 0;
+}
