@@ -1,0 +1,49 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+struct vector {
+    int x;
+    int y;
+
+    void show() {
+        cout << "(" << x << "," << y << ")";
+    };
+
+    double norma() {
+        return sqrt(pow(x, 2) + pow(y, 2));
+    };
+
+    void mnogh_const(double a) {
+        x *= a;
+        y *= a;
+    }
+
+    void mnogh_vector(struct vector *t) {
+        x *= t->x;
+        y *= t->y;
+    };
+
+    void dod(struct vector *t) {
+        x += t->x;
+        y += t->y;
+    }
+
+    void vid(struct vector *t) {
+        x -= t->x;
+        y -= t->y;
+    }
+};
+
+int main() {
+    vector v1;
+    vector v2;
+    v1.x = 6;
+    v1.y = 5;
+    v2.x = 2;
+    v2.y = 2;
+    v1.vid(&v2);
+    v1.show();
+    return 0;
+}
