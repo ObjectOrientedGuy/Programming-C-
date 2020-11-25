@@ -1,0 +1,25 @@
+#include <iostream>
+#include <fstream>
+#include <vector>
+using namespace std;
+int main() {
+    int l=0;
+    vector<int> dod;
+    vector<int> vid;
+    fstream f;
+    f.open("ffail.txt");
+    while (!f.eof()){
+            f>>l;
+        if (l<0) vid.push_back(l);//додаємо в кінець вектора ще один елемент
+        else dod.push_back(l);
+    }
+    if(dod.size()>vid.size()) dod.resize(vid.size());//якщо додатніх чисел більше ніж відємних
+    else if(dod.size()<vid.size()) vid.resize(dod.size());//якщо відємних більше ніж додатніх 
+    f.close();//закриваємо попередній файл 
+    f.open("res.txt");//і відкриваємо новий
+    for (int i=0;i<dod.size();i++){
+        f<<dod.at(i)<<" "<<vid.at(i)<<" ";
+    }
+    f.close();
+    return 0;
+}
