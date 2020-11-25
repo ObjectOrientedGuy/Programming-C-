@@ -1,0 +1,22 @@
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+int main() {
+    char n,k,l;
+    int count=0;
+    fstream fail;
+    fail.open("ffail.txt");//відкриваємо файл
+    fail>>l;//перша буква першого слова
+    while (!fail.eof()){
+        fail.get(n);
+        if(n==' ') {//якщо знаходимо пробіл тоді порінюємо наступний символ і символ першої букви першого слова
+            fail.get(k);
+            if(k==l)count++;
+        }
+    }
+    fail.close();//закриваємо файл
+    cout<<count;
+    return 0;
+}
