@@ -1,0 +1,35 @@
+#include <iostream>
+#include <cmath>
+#include <vector>
+#include <string>
+#include <fstream>
+
+using namespace std;
+
+int main() {
+    vector<string> words_with_e;
+    fstream fail;
+    fail.open("ffail.txt");
+    string line;
+    getline(fail, line);
+    string delimiter = " ";
+
+    int  pos = 0;
+    string word;
+    while ((pos = line.find(delimiter)) != string::npos) {
+        word = line.substr(0, pos);//дістає кусок string  початкової позиції по кінцеву
+        if (word[1] == 'e') words_with_e.push_back(word);
+        line.erase(0, pos + delimiter.length());//виаляємо знайдене слово
+    }
+    if (line[1] == 'e') words_with_e.push_back(line);
+    if (words_with_e.size() == 0) {
+        cout << "There are no words with 'e' as  second char ";
+        return 0;
+    }
+    string longest_word=words_with_e.at(0);
+    for (int i = 0; i < words_with_e.size();i++){
+        if (longest_word.size()<=words_with_e.at(i).size()) longest_word=words_with_e.at(i);
+    }
+    cout<<"The longest words with 'e' as a second char is:"<<longest_word;
+        return 0;
+}
