@@ -50,7 +50,7 @@ public:
 
     bool ifDataCorect(){
         if(a>0&&b>0&&c>0) {
-            if (abs(a + b) >c){
+            if (abs(a + b) >c&&abs(c + b) >a&&abs(c + a) >b){
                 return true;
             }else return false;
         }else return false;
@@ -82,12 +82,29 @@ void sortShow (Triangel trik[]){
         cout<<*(trik+i)<<endl;
     }
 }
+void maxSqure(Triangel trik[]){
+    int size=3;
+    double max=(trik+0)->ploscha();
+    int itter=0;
+    for(int i=1;i<size;i++){
+        if (max<(trik+i)->ploscha()){
+            max=(trik+i)->ploscha();
+            itter=i;
+        }
+    }
+    cout<<"The bigest triangel is "<<*(trik+itter);
+}
 int main() {
     Triangel trik[3];
     for(int i=0;i<3;i++){
         cin>>trik[i];
+        while(!trik[i].ifDataCorect()){
+            cout<<"Data is incorect please enter another"<<endl;
+            cin>>trik[i];
+        }
+
     }
     sortShow(trik);
-    int k;
+    maxSqure(trik);
     return 0;
 }
