@@ -1,0 +1,115 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <vector>
+#include <stdlib.h>
+
+using namespace std;
+
+class Student {
+private:
+    string last_name;
+    string group;
+    double rating_grate;
+public:
+    Student(const string &lastName, const string &group, double ratingGrate) : last_name(lastName), group(group),
+                                                                               rating_grate(ratingGrate) {}
+
+    const string &getLastName() const {
+        return last_name;
+    }
+
+    void setLastName(const string &lastName) {
+        last_name = lastName;
+    }
+
+    const string &getGroup() const {
+        return group;
+    }
+
+    void setGroup(const string &group) {
+        Student::group = group;
+    }
+
+    double getRatingGrate() const {
+        return rating_grate;
+    }
+
+    void setRatingGrate(double ratingGrate) {
+        rating_grate = ratingGrate;
+    }
+
+    friend ostream &operator<<(ostream &os, const Student &student) {
+        os << "last_name: " << student.last_name << " group: " << student.group << " rating_grate: "
+           << student.rating_grate<<endl;
+        return os;
+    }
+
+};
+void printBestStudent(vector<Student> students){
+    Student best_student=students.at(0);
+    for(int i=1;i<students.size()-1;i++){
+        if(best_student.getRatingGrate()<students.at(i).getRatingGrate()) best_student=students.at(i);
+    }
+    cout<<best_student<<endl;
+}
+double averageGrade(string group,vector<Student> students){
+    double sum=0;
+    int n=0;
+    for(int i=0;i<students.size();i++){
+        if(students.at(i).getGroup()==group){
+            sum+=students.at(i).getRatingGrate();
+            n++;
+        }
+    }
+    return sum/n;
+}
+void  alphavit(vector<Student> students){
+    for(int n=0;n<students.size()-1;n++) {
+        for (int i = 0; i < students.size()-1; i++) {
+            int k=0;
+            while ((int)students.at(i).getLastName()[k]==(int) students.at(i+1).getLastName()[k]){
+                if (k>=students.at(i).getLastName().size()||k>=students.at(i+1).getLastName().size()) {
+
+                  break;
+                }
+                k++;
+            }
+            if ((int) students.at(i).getLastName()[k] > (int) students.at(i + 1).getLastName()[k]) {
+                Student temporary = students.at(i);
+                students.at(i) = students.at(i + 1);
+                students.at(i + 1) = temporary;
+            }
+        }
+    }
+    for(int n=0;n<students.size();n++) {
+        cout<<students.at(n);
+    }
+}
+int main() {
+    fstream read;
+    vector<Student> students;
+    read.open("Group.txt");
+    if(!read.is_open()) return -1;
+    while (!read.eof()){
+        string raw;
+        getline(read,raw);
+        string delimiter = ",";
+        int  pos = 0;
+        string lname;
+        string group;
+        pos = raw.find(delimiter);
+        lname = raw.substr(0, pos);//дістає кусок string  початкової позиції по кінцеву
+        raw.erase(0, pos + delimiter.length());//виаляємо знайдене слово
+        pos = raw.find(delimiter);
+        group = raw.substr(0, pos);//дістає кусок string  початкової позиції по кінцеву
+        raw.erase(0, pos + delimiter.length());//виаляємо знайдене слово
+        students.push_back(Student(lname,group,strtod(raw.c_str(), NULL)));
+    }
+    alphavit(students);
+    cout<<"Average grade of group PMI-13 is "<<averageGrade("PMI-13",students)<<endl;
+    cout<<"The best student is";
+    printBestStudent(students);
+    cout<<endl;
+    return 0;
+}
