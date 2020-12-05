@@ -1,0 +1,93 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <vector>
+#include <cmath>
+
+using namespace std;
+class Triangel{
+private:
+    double a;
+    double b;
+    double c;
+public:
+    Triangel() : a(6), b(8), c(10) {}
+
+    Triangel(double a, double b, double c) : a(a), b(b), c(c) {}
+
+    double getA() const {
+        return a;
+    }
+
+    void setA(double a) {
+        Triangel::a = a;
+    }
+
+    double getB() const {
+        return b;
+    }
+
+    void setB(double b) {
+        Triangel::b = b;
+    }
+
+    double getC() const {
+        return c;
+    }
+
+    void setC(double c) {
+        Triangel::c = c;
+    }
+
+    double perymeter(){
+        return a+b+c;
+    }
+
+    double ploscha (){
+        double pivPer=perymeter()/2;
+        return sqrt(pivPer*(pivPer-a)*(pivPer-b)*(pivPer-c));
+    }
+
+    bool ifDataCorect(){
+        if(a>0&&b>0&&c>0) {
+            if (abs(a + b) >c){
+                return true;
+            }else return false;
+        }else return false;
+    }
+
+
+    friend istream &operator>>(istream &is,Triangel &triangel) {
+        is >>  triangel.a>>triangel.b>>triangel.c;
+        return is;
+    }
+
+    friend ostream &operator<<(ostream &os, const Triangel &triangel) {
+        os << "a: " << triangel.a << " b: " << triangel.b << " c: " << triangel.c;
+        return os;
+    }
+};
+void sortShow (Triangel trik[]){
+    int size=3;
+    for(int i=0;i<size-1;i++){
+        for(int n=0;n<size-1;n++){
+            if((trik+n)->perymeter()>(trik+n+1)->perymeter()){
+                Triangel tmp=*(trik+n);
+                *(trik+n)=*(trik+n+1);
+                *(trik+n+1)=tmp;
+            }
+        }
+    }
+    for(int i=0;i<size;i++){
+        cout<<*(trik+i)<<endl;
+    }
+}
+int main() {
+    Triangel trik[3];
+    for(int i=0;i<3;i++){
+        cin>>trik[i];
+    }
+    sortShow(trik);
+    int k;
+    return 0;
+}
