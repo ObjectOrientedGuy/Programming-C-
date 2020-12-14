@@ -1,0 +1,140 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <vector>
+#include <stdlib.h>
+
+using namespace std;
+
+class Goods{
+private:
+    string name;
+    string brand;
+    double  price;
+    int number;
+public:
+    Goods(const string &name, const string &brand, double price, int number) : name(name), brand(brand), price(price),
+                                                                            number(number) {}
+
+    const string &getName() const {
+        return name;
+    }
+
+    void setName(const string &name) {
+        Goods::name = name;
+    }
+
+    const string &getBrand() const {
+        return brand;
+    }
+
+    void setBrand(const string &brand) {
+        Goods::brand = brand;
+    }
+
+    double getPrice() const {
+        return price;
+    }
+
+    void setPrice(double price) {
+        Goods::price = price;
+    }
+
+    int getNumber() const {
+        return number;
+    }
+
+    void setNumber(int number) {
+        Goods::number = number;
+    }
+
+    friend istream &operator>>(istream &os,Goods &goods) {
+        os>>goods.name>>goods.brand>>goods.price>>goods.number;
+        return os;
+    }
+
+    friend ostream &operator<<(ostream &os, const Goods &goods) {
+        os << goods.name << "," << goods.brand << "," << goods.price << ","<< goods.number;
+        return os;
+    }
+    friend void calculateAllSum(vector<Goods> tovary);
+
+
+};
+void showTheExpensivest(vector<Goods> tovary){
+    int num=0;
+    double maxPrice=tovary.at(0).getPrice();
+    for (int i=1;i<tovary.size();i++){
+        if(maxPrice<tovary.at(i).getPrice()){
+            maxPrice=tovary.at(i).getPrice();
+            num=i;
+        }
+    }
+    cout<<tovary.at(num);
+
+}
+void sortByBrand(vector<Goods> tovary){
+    for(int i=0;i<tovary.size();i++){
+        for(int n=0;n<tovary.size()-1;n++){
+            if (tovary.at(n).getBrand()>tovary.at(n+1).getBrand()){
+                Goods tmp=tovary.at(n);
+                tovary.at(n)=tovary.at(n+1);
+                tovary.at(n+1)=tmp;
+            }
+            if (tovary.at(n).getBrand()==tovary.at(n+1).getBrand()){
+                if (tovary.at(n).getName()>tovary.at(n+1).getName()){
+                    Goods tmp=tovary.at(n);
+                    tovary.at(n)=tovary.at(n+1);
+                    tovary.at(n+1)=tmp;
+                }
+            }
+        }
+    }
+}
+void calculateAllSum(vector<Goods> tovary){
+    sortByBrand(tovary);//сортуємо масив
+    double sum=0;
+    for(int i=0;i<tovary.size()-1;i++){
+        bool rat=false;
+        while(tovary.at(i).brand==tovary.at(i+1).brand){
+            sum+=tovary.at(i).number*tovary.at(i).price+tovary.at(i+1).number*tovary.at(i+1).price;
+            i++;
+            rat= true;
+        }
+        cout<<tovary.at(i).brand;
+        if (rat) cout<<sum<<endl;
+        else {
+            cout<<tovary.at(i).number*tovary.at(i).price<<endl;
+            if (i==tovary.size()-2) cout<<tovary.at(i+1).brand<<tovary.at(i+1).number*tovary.at(i+1).price<<endl;
+        }
+    }
+}
+int main() {
+    fstream read;
+    vector<Goods> goods;
+    read.open("Tovar.txt");
+    if(!read.is_open()) return -1;
+    while (!read.eof()){
+        string raw;
+        getline(read,raw);
+        string delimiter = ",";
+        int  pos = 0;
+        string name;
+        string brand;
+        string price;
+        pos = raw.find(delimiter);
+        name = raw.substr(0, pos);//дістає кусок string  початкової позиції по кінцеву
+        raw.erase(0, pos + delimiter.length());//виаляємо знайдене слово
+        pos = raw.find(delimiter);
+        brand = raw.substr(0, pos);//дістає кусок string  початкової позиції по кінцеву
+        raw.erase(0, pos + delimiter.length());//виаляємо знайдене слово
+        pos = raw.find(delimiter);
+        price = raw.substr(0, pos);//дістає кусок string  початкової позиції по кінцеву
+        raw.erase(0, pos + delimiter.length());//виаляємо знайдене слово
+        goods.push_back(Goods(name, brand, stod(price),stoi(raw)));
+    }
+    showTheExpensivest(goods);
+    sortByBrand(goods);
+    calculateAllSum(goods);
+    return 0;
+}
