@@ -1,0 +1,28 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+
+int main() {
+    int pos=0;
+    bool true_or_not=true;
+    int start =0;
+    string buff;
+    vector <int> probil;
+    getline(cin,buff,'.');
+    while((pos=buff.find(' ',start))!=string::npos){
+        probil.push_back(pos);
+        start+=(pos+1);
+    }
+    for(int i=0;i<probil.size();i++){
+        if(probil[0]==0) continue;
+        if(buff[probil.at(i)-1]!=buff[probil.at(i)+1]){
+            true_or_not=false;
+        }
+    }
+    if(true_or_not) cout<<"Word start from the final letter of previous word."<<endl;
+    else cout<<"Word doesn't start from the final letter of previous word."<<endl;
+    return 0;
+}
