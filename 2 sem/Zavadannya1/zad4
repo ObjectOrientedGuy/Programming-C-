@@ -1,0 +1,31 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+
+int main() {
+    int pos=0,count_of_word_equal_to_first=0;
+    string buff,pershe_slovo;
+    vector <int> pos_of_coma;
+    getline(cin,buff,'.');
+    while((pos=buff.find(',',pos))!=string::npos){
+        pos_of_coma.push_back(pos);
+        pos++;
+    }
+    for(int i=0; i < pos_of_coma.at(0); i++){
+        pershe_slovo.push_back(buff[i]);
+    }
+    pos_of_coma.push_back(buff.length());//додаєм до вектора 
+    for(int i=0;i<pos_of_coma.size();i++){
+        string next_chek_word;
+        for(int n=pos_of_coma[i]+1; n < pos_of_coma[i+1]; n++) {
+            next_chek_word.push_back(buff[n]);
+        }
+        if(next_chek_word==pershe_slovo){
+            count_of_word_equal_to_first++;
+        }
+    }
+    cout<<count_of_word_equal_to_first<<endl;
+    return 0;
+}
