@@ -1,0 +1,29 @@
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
+
+
+int main() {
+    int pos=0,count_of_word_equal_to_first=0;
+    string buff,max_slovo;
+    vector <int> pos_of_coma;
+    getline(cin,buff,'.');
+    while((pos=buff.find(',',pos))!=string::npos){
+        pos_of_coma.push_back(pos);
+        pos++;
+    }
+    int itter_max_size=0,max_size=0;
+    pos_of_coma.push_back(buff.length());
+    for(int i=0;i<pos_of_coma.size()-1;i++){
+        if(pos_of_coma.at(i+1)-pos_of_coma.at(i)>max_size){
+            max_size=pos_of_coma.at(i+1)-pos_of_coma.at(i);
+            itter_max_size=i;
+        }
+    }
+    for(int i=pos_of_coma.at(itter_max_size)+1; i < pos_of_coma.at(itter_max_size+1); i++){
+        max_slovo.push_back(buff[i]);
+    }
+    cout<<max_slovo;
+    return 0;
+}
