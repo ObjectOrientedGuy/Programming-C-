@@ -1,0 +1,39 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+
+int main() {
+    int pos = 0;
+    string buff, slovo1,slovo2;
+    vector<int> pos_of_coma;
+    getline(cin, buff, '.');
+    buff.insert(buff.begin(),',');
+    while ((pos = buff.find(',', pos)) != string::npos) {
+        pos_of_coma.push_back(pos);
+        pos++;
+    }
+    pos_of_coma.push_back(buff.length());//для того шоб зчитати останнє слово
+    for (int i = 0; i < pos_of_coma.size() - 1; i++) {
+        for (int n = pos_of_coma.at(i)+1; n < pos_of_coma.at(i + 1); n++) {
+            slovo1.push_back(buff[n]);
+        }
+        for(int k=i+1;k < pos_of_coma.size() - 1; k++){
+            for (int l = pos_of_coma.at(k)+1; l < pos_of_coma.at(k + 1); l++) {
+                slovo2.push_back(buff[l]);
+            }
+            if (slovo1==slovo2){
+                buff.erase(pos_of_coma.at(k),pos_of_coma.at(k + 1)-(pos_of_coma.at(k)));
+            }
+            slovo2.erase();
+        }
+
+        slovo1.erase();
+    }
+    buff.erase(buff.begin());
+    buff.push_back('.');
+    cout<<buff;
+    return 0;
+}
