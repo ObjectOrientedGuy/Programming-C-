@@ -1,0 +1,78 @@
+///////////////////////////////   Сортування  Злиттям   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+void mergeSort(double *array, int lenght_of_arr) {
+    if (lenght_of_arr > 1) {
+
+        int lef_size = lenght_of_arr / 2;
+        int right_size = lenght_of_arr - lef_size;
+
+
+        mergeSort(&array[0], lef_size);
+        mergeSort(&array[lef_size], right_size);
+
+        int left_index = 0, right_index = lef_size, temporary_index = 0;
+
+        double *temp_arr = new double[lenght_of_arr];
+
+        while (left_index < lef_size || right_size < lenght_of_arr) {
+            if (array[left_index] < array[right_index]) {
+                temp_arr[temporary_index] = move(array[left_index]);
+                temporary_index++;
+                left_index++;
+            } else {
+                temp_arr[temporary_index] = move(array[right_index]);
+                temporary_index++;
+                right_index++;
+            }
+
+            if (left_index == lef_size) {
+                for (int i = right_index; i < lenght_of_arr; i++) {
+                    temp_arr[temporary_index] = array[i];
+                    temporary_index++;
+                }
+                break;
+            }
+            if (right_index == lenght_of_arr) {
+                for (int i = left_index; i < lef_size; i++) {
+                    temp_arr[temporary_index] = array[i];
+                    temporary_index++;
+                }
+                break;
+            }
+        }
+
+        copy(&temp_arr[0], &temp_arr[lenght_of_arr], array);
+    }
+
+}
+
+void TestSort(){
+    srand(time(NULL));
+    int n;
+    bool test_pass_or_failed = true;
+    n = rand() % 10;
+    double* array=new double[n];
+    for(int i=0;i<n;i++){
+        array[i]=rand();
+    }
+    mergeSort(array,n);
+    for(int i=0;i<n-1;i++){
+        if(array[i]>array[i+1]) {
+            test_pass_or_failed=false;
+        }
+    }
+    if(test_pass_or_failed){
+        cout<<"test passed"<<endl;
+    }else{
+        cout<<"test failed"<<endl;
+    }
+}
+
+int main() {
+    TestSort();
+    return 0;
+}
