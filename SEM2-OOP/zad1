@@ -1,0 +1,226 @@
+
+#include <iostream>
+#include <string>
+#include <vector>
+#include "fstream"
+
+
+using namespace std;
+
+class Work_of_art{
+protected:
+    string name_of_work;
+    int age;
+    string author;
+    string ganer;
+public:
+    Work_of_art() {
+        name_of_work = "none";
+        age = 0;
+        author = "none";
+        ganer = "none";
+    }
+
+    Work_of_art(const string &nameOfWork, int age, const string &author, const string &ganer) : name_of_work(
+            nameOfWork), age(age), author(author), ganer(ganer) {
+        this->age = age;
+    }
+
+    const string &getNameOfWork() const {
+        return name_of_work;
+    }
+
+    void setNameOfWork(const string &nameOfWork) {
+        name_of_work = nameOfWork;
+    }
+
+    int getAge() const {
+        return age;
+    }
+
+    void setAge(int age) {
+        this->age = age;
+    }
+
+    const string &getAuthor() const {
+        return author;
+    }
+
+    void setAuthor(const string &author) {
+        this->author = author;
+    }
+
+    const string &getGaner() const {
+        return ganer;
+    }
+
+    void setGaner(const string &ganer) {
+        Work_of_art::ganer = ganer;
+    }
+
+    virtual void output(){
+        cout<< "name_of_work: "<< name_of_work << " age: " << age << " author: " << author << " ganer: "<< ganer;
+    }
+    virtual void input(istream& stream=cin){
+        stream>>age>>author>>name_of_work>>ganer;
+    }
+
+};
+
+class Technic{
+protected:
+    string name_of_techinc;
+    int matirial;
+public:
+    Technic(){
+        name_of_techinc = "none";
+        matirial = 0;
+    }
+    Technic(const string &nameOfTechinc, int matirial) : name_of_techinc(nameOfTechinc), matirial(matirial) {}
+
+    const string &getNameOfTechinc() const {
+        return name_of_techinc;
+    }
+
+    void setNameOfTechinc(const string &nameOfTechinc) {
+        name_of_techinc = nameOfTechinc;
+    }
+
+    int getMatirial() const {
+        return matirial;
+    }
+
+    void setMatirial(int matirial) {
+        Technic::matirial = matirial;
+    }
+
+    virtual void input(istream& stream=cin){
+        stream>>matirial>>name_of_techinc;
+    }
+};
+
+class Picture : virtual public Work_of_art , virtual public Technic{
+protected:
+    float width;
+    float height;
+    float coast;
+public:
+    Picture() : Work_of_art() , Technic() {
+        width = 0;
+        height = 0;
+        coast = 0;
+    }
+
+    Picture(const string &nameOfWork, int age, const string &author, const string &ganer, const string &nameOfTechinc,
+            int matirial, float width, float height, float coast) : Work_of_art(nameOfWork, age, author, ganer),
+                                                                    Technic(nameOfTechinc, matirial), width(width),
+                                                                    height(height), coast(coast) {
+        this->coast = coast;
+        this->age = age;
+        this->height  = height;
+        this->width = width;
+        this->name_of_techinc = nameOfTechinc;
+        this->matirial = matirial;
+        this->ganer = ganer;
+        this->name_of_work = nameOfWork;
+    }
+
+    float getWidth() const {
+        return width;
+    }
+
+    void setWidth(float width) {
+        Picture::width = width;
+    }
+
+    float getHeight() const {
+        return height;
+    }
+
+    void setHeight(float height) {
+        Picture::height = height;
+    }
+
+    float getCoast() const {
+        return coast;
+    }
+
+    void setCoast(float coast) {
+        Picture::coast = coast;
+    }
+
+
+    void input(istream &stream) override {
+        Work_of_art::input(stream);
+        Technic::input(stream);
+        stream>>width>>height>>coast;
+    }
+
+    void output() override {
+        Work_of_art::output();
+        cout<<width<<" "<<height<<" "<<coast<<endl;
+    }
+
+
+};
+class Picture_gallery {
+protected:
+    string name_of_gallery;
+    Picture* array =new Picture[34] ;
+public:
+    Picture_gallery(){
+        name_of_gallery = "none";
+    }
+    Picture_gallery(const string &nameOfGallery,  int countOfPicture) : name_of_gallery(nameOfGallery){
+        this->name_of_gallery = nameOfGallery;
+    }
+
+    const string &getNameOfGallery() const {
+
+        return name_of_gallery;
+    }
+
+    void setNameOfGallery(const string &nameOfGallery) {
+        name_of_gallery = nameOfGallery;
+    }
+
+
+    void setArray(int i, string name_of_work,string author,string ganer,string name_of_techinc,int age, int matirial,float width,float height,float coast) {
+        array[i].setAuthor(author);
+        array[i].setNameOfWork(name_of_work);
+        array[i].setGaner(ganer);
+        array[i].setMatirial(matirial);
+        array[i].setNameOfTechinc(name_of_techinc);
+        array[i].setWidth(width);
+        array[i].setHeight(height);
+        array[i].setCoast(coast);
+        array[i].setAge(age);
+    }
+};
+
+int main() {
+    fstream output;
+    output.open("/Users/momo/Documents/homework_c++_university/17.03.2021/file.txt");
+    int count_of_elements;
+    output>>count_of_elements;
+    Picture_gallery array;
+    cout<<count_of_elements<<endl;
+    string name_of_work,author,ganer,name_of_techinc;
+    int age,matirial;
+    float width,height,coast;
+
+    for (int i = 0; i < 2; ++i) {
+        string tmp;
+        getline(output,tmp);
+        age=atof(tmp.substr(0,tmp.find(' ')).c_str());
+        matirial=45;
+        width=height=coast=0;
+        name_of_work=author=ganer=name_of_techinc="hui";
+        array.setArray(i,name_of_work,author,ganer,name_of_techinc,age,matirial,width,height,coast);
+        int k=0;
+
+    }
+
+
+    return 0;
+}
